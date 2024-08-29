@@ -2,6 +2,7 @@ Project Name: Life Tracker
 Life Tracker consists of two section - Scheduler & Task
 1. Scheduler arrange and display based on the calendar
 2. Task arrange and display based on the status
+
 This project created with the purpose to explore Supabase as database and deployment through netlify
 
 How to run locally:
