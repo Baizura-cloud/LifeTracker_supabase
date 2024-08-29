@@ -264,7 +264,7 @@ class Calendar extends Component {
       <li key={item.id}>
         <Box sx={{ flexGrow: 1, paddingTop: 2 }}>
           <Grid container spacing={1}>
-            <Grid item xs={12}>
+            <Grid item xs>
               <Card>
                 <CardContent>
                   <Typography>{item.name}</Typography>
