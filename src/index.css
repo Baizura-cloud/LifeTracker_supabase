@@ -6,8 +6,21 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
-
+ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
+li {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+}
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.css-1hbyad5-MuiTypography-root{
+  display: none !important;
 }
