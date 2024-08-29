@@ -20,7 +20,7 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import DeleteIcon from "@mui/icons-material/Delete";
 import EditIcon from "@mui/icons-material/Edit";
 import DialogSnackbar from "./snackbar";
-import { CardHeader } from "@mui/material";
+import { CardHeader, Grid } from "@mui/material";
 import { supabase } from "../client";
 
 class Tasklist extends Component {
@@ -33,7 +33,8 @@ class Tasklist extends Component {
       modal: false, //submit & edit dialog open@close
       confirmDel: false, //confirm delete dialog open@close
       popup: false, //snackbar open@close
-      popupContent: { //snackbar type & message
+      popupContent: {
+        //snackbar type & message
         severity: "",
         message: "",
       },
@@ -55,8 +56,8 @@ class Tasklist extends Component {
   async refreshList() {
     try {
       const response = await supabase.from("todos").select();
-      const data = await response.data
-      this.setState({todoList:data})
+      const data = await response.data;
+      this.setState({ todoList: data });
     } catch (error) {
       console.log(error);
     }
@@ -102,52 +103,54 @@ class Tasklist extends Component {
   handleSubmitItem = (item) => {
     this.toggle();
     try {
-      this.submitItem(item)
-      this.togglesnack("submit")
+      this.submitItem(item);
+      this.togglesnack("submit");
     } catch (error) {
-      console.log(error)
-      this.togglesnack("error")
+      console.log(error);
+      this.togglesnack("error");
     }
-    this.refreshList()
+    this.refreshList();
   };
-  async submitItem(item){
+  async submitItem(item) {
     try {
-      if(item.id){
-        await supabase.from("todos").update(item).eq('id',item.id).then(
-          this.refreshList()
-        )
+      if (item.id) {
+        await supabase
+          .from("todos")
+          .update(item)
+          .eq("id", item.id)
+          .then(this.refreshList());
         return;
       }
-      await supabase.from("todos").insert(item).then(
-        this.refreshList()
-      )
+      await supabase.from("todos").insert(item).then(this.refreshList());
       return;
     } catch (error) {
-      return error
+      return error;
     }
   }
-  handleDeleteItem = (item) =>{
-    this.handleDelete()
-    item = this.state.activeItem
+  handleDeleteItem = (item) => {
+    this.handleDelete();
+    item = this.state.activeItem;
     try {
-      this.deleteItem(item)
-      this.togglesnack("delete")
+      this.deleteItem(item);
+      this.togglesnack("delete");
     } catch (error) {
-      this.togglesnack("error")
-      console.log(error)
+      this.togglesnack("error");
+      console.log(error);
     }
-    this.refreshList()
-  }
-  async deleteItem(item){
-    try {
-      await supabase.from("todos").delete().eq('id', item.id).then(
-        this.refreshList()
-      )
-      return;
-    } catch (error) {
-      return error
-    }
+    this.refreshList();
   };
+  async deleteItem(item) {
+    try {
+      await supabase
+        .from("todos")
+        .delete()
+        .eq("id", item.id)
+        .then(this.refreshList());
+      return;
+    } catch (error) {
+      return error;
+    }
+  }
 
   createItem = () => {
     const item = { title: "", description: "", completed: false };
@@ -190,7 +193,34 @@ class Tasklist extends Component {
             iconPosition="end"
             textColor="secondary"
             onClick={() => this.displayCompleted(false)}
-            
+          />
+        </Tabs>
+      </Box>
+    );
+  };
+  renderSmallTabList = () => {
+    const { value } = this.state;
+    return (
+      <Box sx={{ width: "100%", borderColor: "divider" }}>
+        <Tabs
+          centered
+          value={value}
+          onChange={this.handleChange}
+          textColor="primary"
+          indicatorColor="primary"
+        >
+          <Tab
+            label="Completed"
+            icon={<TaskAltIcon />}
+            iconPosition="end"
+            onClick={() => this.displayCompleted(true)}
+          />
+          <Tab
+            label="Incompleted"
+            icon={<NotInterestedIcon />}
+            iconPosition="end"
+            textColor="secondary"
+            onClick={() => this.displayCompleted(false)}
           />
         </Tabs>
       </Box>
@@ -205,7 +235,7 @@ class Tasklist extends Component {
 
     return newItems.map((item) => (
       <li key={item.id}>
-        <Accordion sx={{marginTop:2}}>
+        <Accordion sx={{ marginTop: 2 }}>
           <AccordionSummary
             expandIcon={<ExpandMoreIcon />}
             aria-controls="panel3-content"
@@ -261,7 +291,14 @@ class Tasklist extends Component {
             }
           />
           <CardContent>
-            {this.renderTabList()}
+            <Grid container spacing={2}>
+              <Grid item xs={12} sx={{ display: { xs: "none", md: "block" } }}>
+                {this.renderTabList()}
+              </Grid>
+              <Grid item xs={12} sx={{ display: { xs: "block", md: "none" } }}>
+                {this.renderSmallTabList()}
+              </Grid>
+            </Grid>
             <ul className="list-group list-group-flush border-top-0  ">
               {this.renderItems()}
             </ul>

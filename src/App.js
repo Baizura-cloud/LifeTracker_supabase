@@ -8,6 +8,7 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Typography } from "@mui/material";
 import { spacing } from '@mui/system';
+import { flex } from '@mui/system';
 
 const darkTheme = createTheme({
   palette: {
@@ -24,12 +25,12 @@ class App extends Component {
           <Typography variant="h3" align="center" sx={{margin:6}} gutterBottom={true}>
             LIFE TRACKER
           </Typography>
-          <Container maxWidth="xl" disableGutters={true}>
-            <Grid container spacing={spacing(2)}>
-              <Grid item xs={8} md="true">
+          <Container maxWidth="xl"  disableGutters={true}>
+            <Grid container spacing={spacing(2)} sx={{ flex: 1 }}>
+              <Grid item xs={12} md={8} sx={{ flex: 1, marginBottom:2}}  >
                 <Calendar />
               </Grid>
-              <Grid item xs={4} md="true">
+              <Grid item xs={12} md={4} sx={{ flex: 2 }}  >
                 <Tasklist />
               </Grid>
             </Grid>

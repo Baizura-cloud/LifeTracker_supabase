@@ -248,7 +248,42 @@ class Calendar extends Component {
       </Box>
     );
   };
-
+  renderSmallTabList = () => {
+    const { tabvalue } = this.state;
+    const numbers = [
+      "January",
+      "February",
+      "March",
+      "April",
+      "May",
+      "June",
+      "July",
+      "August",
+      "September",
+      "October",
+      "November",
+      "December",
+    ];
+    return (
+      <Box sx={{ width: "100%", borderColor: "divider" }}>
+        <Tabs
+          variant="scrollable"
+          value={tabvalue}
+          onChange={this.handleTabList}
+          textColor="primary"
+          indicatorColor="primary"
+        >
+          {numbers.map((month) => (
+            <Tab
+              label={month}
+              iconPosition="end"
+              onClick={() => this.displayMonth(month.toUpperCase())}
+            />
+          ))}
+        </Tabs>
+      </Box>
+    );
+  };
   renderItems = () => {
     const { viewMonth } = this.state;
     const newSchedule = this.state.scheduleList.filter((schedule) => {
@@ -322,15 +357,20 @@ class Calendar extends Component {
           />
           <CardContent>
             <Grid container spacing={2}>
-              <Grid item xs={2}>
+              <Grid item xs={2} sx={{ display: { xs: 'none', md: 'block' } }}>
                 {this.renderTabList()}
               </Grid>
-              <Grid item xs={10}>
-                {/* <Typography sx={{justifyContent:'center'}} >
-                  {this.state.viewMonth}
-                </Typography> */}
+              <Grid item xs={10} sx={{ display: { xs: 'none', md: 'block' } }} >
                 <ul className="list-group list-group-flush border-top-0  ">
                   {this.renderItems()}
+                </ul>
+              </Grid>
+              <Grid item xs={12} sx={{ display: { xs: 'block', md: 'none' } }}>
+                {this.renderSmallTabList()}
+              </Grid>
+              <Grid item xs={12} sx={{ display: { xs: 'block', md: 'none' } }} >
+                <ul className="list-group list-group-flush border-top-0  ">
+                {this.renderItems()}
                 </ul>
               </Grid>
             </Grid>
